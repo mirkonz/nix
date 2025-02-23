@@ -1,0 +1,15 @@
+*~
+.gitconfig.local
+
+._*
+.DS_Store
+.Spotlight-V100
+.Trashes
+
+.vim/viminfo
+.vim/swaps/*
+.vim/undo
+
+node_modules
+Desktop.ini
+Thumbs.db
