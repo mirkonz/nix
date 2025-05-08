@@ -1,9 +1,8 @@
 {
-  description = "MacOS configuration using NIX (incl. Home Manager, Homebrew and MAS)";
+  description = "MacOS configuration using Nix (incl. Home Manager, Homebrew and MAS)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,31 +39,51 @@
     mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = inputs@{
-    self,
-    nixpkgs,
-    home-manager,
-    nix-darwin,
-    nix-homebrew,
-    homebrew-core,
-    homebrew-cask,
-    homebrew-bundle,
-    mac-app-util,
-    ...
-  }:
-  let
-    username = "mirko";
-    system = "aarch64-darwin";
-  in {
-    darwinConfigurations.${username} = nix-darwin.lib.darwinSystem {
-      system = system;
-      specialArgs = { inherit inputs self username homebrew-core homebrew-cask homebrew-bundle mac-app-util; };
-      modules = [
-        ./configuration.nix
-        mac-app-util.darwinModules.default
-        home-manager.darwinModules.home-manager
-        nix-homebrew.darwinModules.nix-homebrew
-      ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nix-darwin,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
+      homebrew-bundle,
+      mac-app-util,
+      ...
+    }:
+    let
+      username = "mirko";
+      system = "aarch64-darwin";
+      inputs = {
+        inherit
+          self
+          nixpkgs
+          home-manager
+          nix-darwin
+          nix-homebrew
+          homebrew-core
+          homebrew-cask
+          homebrew-bundle
+          mac-app-util
+          ;
+      };
+    in
+    {
+      darwinConfigurations.${username} = nix-darwin.lib.darwinSystem {
+        system = system;
+        modules = [
+          ./dock.nix
+          ./darwin.nix
+          ./home.nix
+          ./system-defaults.nix
+          mac-app-util.darwinModules.default
+          home-manager.darwinModules.home-manager
+          nix-homebrew.darwinModules.nix-homebrew
+        ];
+        specialArgs = {
+          inherit self username inputs;
+        };
+      };
     };
-  };
 }

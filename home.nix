@@ -1,128 +1,126 @@
-{ pkgs, username, mac-app-util, ... }:
 {
-  imports = [
-    mac-app-util.homeManagerModules.default
-  ];
-  home = {
-    username = "${username}";
-    homeDirectory = "/Users/${username}";
-    stateVersion = "23.11";
-    sessionVariables = {
-      NIX_TRAMPOLINE = "1";
-      EDITOR = "nvim";
-      SHELL = "zsh";
-    };
-    packages = with pkgs; [
-      # CLI tools
-      bat # fancy version of `cat`
-      curl
-      direnv
-      eza
-      fd # fancy version of `find`
-      ffmpeg
-      fzf
-      htop
-      imagemagick
-      jq
-      m-cli
-      mc
-      neovim
-      pnpm
-      rbenv
-      ripgrep # fancy version of `grep`
-      rsync
-      skhd
-      ssh-copy-id
-      tmux
-      tree
-      wget
-      yq
-      zsh
-      zinit
+  config,
+  pkgs,
+  username,
+  ...
+}:
 
-      # GUI apps
-      arc-browser
-      docker
-      discord
-      # firefox # Broken
-      google-chrome
-      iina
-      # iterm2
-      keka
-      # obs-studio # Broken
-      raycast
-      signal-desktop
-      spotify
-      # teams # Broken
-      vscode
-      zoom
-    ];
-    file = {
+let
+  packages = import ./packages.nix { inherit pkgs; };
+in
+{
+  # Home Manager settings
+  home-manager.users.${username} = {
+    home.username = username;
+    home.homeDirectory = "/Users/${username}";
+    home.stateVersion = "23.11";
+
+    home.sessionVariables = {
+      ZDOTDIR = "$HOME";
+      EDITOR = "code";
+    };
+
+    # Home Manager managed packages
+    home.packages = packages.userPackages;
+
+    # Dotfiles
+    home.file = {
       ".gitconfig".source = ./dotfiles/.gitconfig;
       ".gitignore_global".source = ./dotfiles/.gitignore_global;
+      ".hushlogin".source = ./dotfiles/.hushlogin;
       ".npmrc".source = ./dotfiles/.npmrc;
       ".p10k.zsh".source = ./dotfiles/.p10k.zsh;
-      ".powerlevel9k".source = ./dotfiles/.powerlevel9k;
       ".vimrc".source = ./dotfiles/.vimrc;
-      ".zshrc".source = ./dotfiles/.zshrc;
+      ".zinit.zsh".source = ./dotfiles/.zinit.zsh;
     };
-  };
 
-  programs = {
-    # Let Home Manager install and manage itself.
-    home-manager.enable = true;
+    programs = {
+      home-manager.enable = true;
 
-    git = {
-      enable = true;
-      userName = "Mirko May";
-      userEmail = "hi@mirko.nz";
-    };
-    direnv = {
-      enable = true;
-      enableZshIntegration = true;
-      enableNushellIntegration = true;
-      nix-direnv.enable = true;
-    };
-    zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-      enableNushellIntegration = false;
-    };
-    zsh = {
-      enable = true;
-      autosuggestion.enable = true;
-      enableCompletion = true;
-      syntaxHighlighting.enable = true;
-      shellAliases = {
-        reload = "source /Users/${username}/.zshrc; echo -e \"\ue2a2 Done!\"";
-        nixup = "darwin-rebuild switch --flake ~/.config/nix";
-
-        t = "eza -Tl --icons";
-        tree = "eza -T --icons";
-        vi = "nvim";
-        vim = "nvim";
-        _vim = "vi";
-        cat = "bat";
-        mk = "take";
-        md = "take";
-        ytd = "yt-dlp";
+      git = {
+        enable = true;
+        userName = "Mirko May";
+        userEmail = "hi@mirko.nz";
       };
-      initExtraBeforeCompInit = ''
-# Enable Powerlevel10k instant prompt.
-if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-  source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-fi
 
-# Install zinit
-source "''${XDG_DATA_HOME:-''${HOME}/.local/share}/zinit/zinit-core/zinit.zsh"
+      direnv = {
+        enable = true;
+        enableZshIntegration = true;
+        nix-direnv.enable = true;
+      };
 
-# Setup Theme
-zi ice filter=blob:none
-zi light romkatv/powerlevel10k
+      fzf = {
+        enable = true;
+        enableZshIntegration = true;
+      };
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-      '';
+      # Zsh configuration
+      zsh = {
+        enable = true;
+        enableCompletion = true;
+        autosuggestion.enable = true;
+        syntaxHighlighting.enable = true;
+        shellAliases = {
+          # reload = "source ~/.zshrc";
+          reload = "exec zsh; echo -e \"\ue2a2 Done!\"";
+          edit = "$EDITOR $HOME/nix";
+          hosts = "sudo $EDITOR /etc/hosts";
+
+          nixup = "nix run nix-darwin -- switch --flake .#mirko";
+
+          l = "eza -bGF --header --git --color=always --group-directories-first --icons";
+          ls = "eza --header --git --color=always --group-directories-first --icons";
+          ll = "eza -la --header --git --icons --octal-permissions --group-directories-first";
+          llm = "eza -lbGd --header --git --sort=modified --color=always --group-directories-first --icons";
+          la = "eza --long --all --group --group-directories-first";
+          lx = "eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale --color=always --group-directories-first --icons";
+
+          lS = "eza -1 --color=always --group-directories-first --icons";
+          lt = "eza --tree --level=2 --color=always --group-directories-first --icons";
+          # l. = "eza -a | grep -E '^\.'";
+
+          t = "eza -Tl --icons";
+          tree = "eza -T --icons";
+
+          vi = "nvim";
+          vim = "nvim";
+          _vim = "vi";
+
+          cat = "bat";
+
+          ytd = "yt-dlp";
+        };
+        initContent = ''
+          autoload colors; colors
+          echo -e "Hi ${username}! $fg[green]\ue2a2$reset_color"
+
+          source ${pkgs.zinit}/share/zinit/zinit.zsh
+          source ~/.zinit.zsh
+
+          source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+          [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+          source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+
+          # NVM NODE
+          [ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"
+          [ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix nvm)/etc/bash_completion.d/nvm"
+          autoload -U add-zsh-hook
+          load-nvmrc() {
+              if [[ -f .nvmrc && -r .nvmrc ]]; then
+                  nvm use
+              elif [[ $(nvm version) != $(nvm version default) ]]; then
+                  echo "Reverting to nvm default version"
+                  nvm use default
+              fi
+          }
+          add-zsh-hook chpwd load-nvmrc
+          load-nvmrc
+
+          # RUBY
+          eval "$(rbenv init -)"
+        '';
+      };
     };
   };
 }

@@ -1,28 +1,12 @@
-{ config, pkgs, self, username, homebrew-core, homebrew-cask, homebrew-bundle, mac-app-util, ... }:
 {
-  imports = [
-    ./modules/dock
-  ];
+  config,
+  pkgs,
+  username,
+  ...
+}:
 
-  nix = {
-    enable = false;
-    settings.experimental-features = [ "nix-command" "flakes" ];
-  };
-
-  nixpkgs = {
-    hostPlatform = "aarch64-darwin";
-    config = {
-      allowUnfree = true;
-      allowUnsupportedSystem = true;
-      allowBroken = true;
-    };
-  };
-
-  system.stateVersion = 6;
-
-  # Set Git commit hash for darwin-version.
-  system.configurationRevision = self.rev or self.dirtyRev or null;
-
+{
+  # macOS settings
   system.activationScripts.safariDefaults.text = ''
     echo "Applying Safari settings..."
     /usr/bin/osascript -e '
@@ -177,131 +161,9 @@
       IsAnalog = true;
     };
 
-    screencapture.location = "/Users/${username}/Downloads"; # Save screenshots to Downloads
-    screencapture.disable-shadow = true; # Disable shadow in screenshots
-  };
-
-  # CLI tools
-  environment = {
-    shells = with pkgs; [ zsh ];
-    systemPackages = with pkgs; [
-      binutils
-      coreutils
-      diffutils
-    ];
-    pathsToLink = [ "/Applications" ];
-  };
-
-  local = {
-    dock = {
-      enable = true;
-      entries = [
-        {path = "/System/Applications/Mail.app/";}
-        {path = "/System/Applications/Calendar.app/";}
-        {path = "/System/Applications/Reminders.app/";}
-        {path = "/System/Applications/Notes.app/";}
-        {type = "spacer";}
-        # Work apps
-        {path = "/Applications/Microsoft Outlook.app/";}
-        {path = "/Applications/Microsoft Teams.app/";}
-        {path = "/Applications/Slack.app/";}
-        {type = "spacer";}
-        # Web apps
-        {path = "/Users/${username}/Applications/Home Manager Apps/Arc.app";}
-        {path = "/Users/${username}/Applications/Home Manager Apps/Spotify.app";}
-        {path = "/Applications/Plex.app/";}
-        {type = "spacer";}
-        # Development apps
-        {path = "/Applications/iTerm.app/";}
-        {path = "/Users/${username}/Applications/Home Manager Apps/Visual Studio Code.app/";}
-        {path = "/Applications/Affinity Designer 2.app/";}
-        {path = "/Applications/Affinity Photo 2.app/";}
-        {type = "spacer";}
-        # Communication apps
-        {path = "/System/Applications/Messages.app/";}
-        {path = "/Applications/WhatsApp.app/";}
-        {path = "/System/Applications/FaceTime.app/";}
-        {type = "spacer";}
-        # System apps
-        {path = "/System/Applications/App Store.app/";}
-        {path = "/Applications/ChatGPT.app/";}
-        {path = "/System/Applications/iPhone Mirroring.app/";}
-        {path = "/System/Applications/System Settings.app/";}
-        {type = "spacer";}
-        # Utilities
-        {
-          path = "/Users/${username}/Applications/";
-          section = "others";
-          options = "--sort name --view grid --display folder";
-        }
-        {
-          path = "/Applications/";
-          section = "others";
-          options = "--sort name --view list --display folder";
-        }
-        {
-          path = "/Users/${username}/Downloads/";
-          section = "others";
-          options = "--sort dateadded --view list --display folder";
-        }
-      ];
+    screencapture = {
+      location = "/Users/${username}/Downloads"; # Save screenshots to Downloads
+      disable-shadow = true; # Disable shadow in screenshots
     };
-  };
-
-
-  # Homebrew setup
-  nix-homebrew = {
-    enable = true;
-    user = "${username}";
-
-    # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-    enableRosetta = true;
-
-    # Disable this so that homebrew executables don't get on our PATH
-    enableFishIntegration = false;
-    enableBashIntegration = false;
-    enableZshIntegration = false;
-
-    # Automatically migrate existing Homebrew installations
-    autoMigrate = true;
-
-    mutableTaps = false;
-
-    taps = {
-      "homebrew/homebrew-core" = homebrew-core;
-      "homebrew/homebrew-cask" = homebrew-cask;
-      "homebrew/homebrew-bundle" = homebrew-bundle;
-    };
-  };
-
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-    };
-    caskArgs = {
-      no_quarantine = true;
-      require_sha = true;
-    };
-    brews = [
-      "wget"
-      "yq"
-      "zsh"
-      "zinit"
-      "dockutil"
-      "direnv"
-    ];
-    casks = import ./cask-apps.nix;
-    masApps = import ./mas-apps.nix;
-  };
-
-  security.pam.enableSudoTouchIdAuth = true;
-
-  # Set default shell
-  users.users."${username}" = {
-    home = "/Users/${username}";
-    shell = pkgs.zsh;
   };
 }
-
