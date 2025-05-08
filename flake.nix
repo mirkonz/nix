@@ -60,10 +60,10 @@
       system = system;
       specialArgs = { inherit inputs self username homebrew-core homebrew-cask homebrew-bundle mac-app-util; };
       modules = [
+        ./configuration.nix
+        mac-app-util.darwinModules.default
         home-manager.darwinModules.home-manager
         nix-homebrew.darwinModules.nix-homebrew
-        mac-app-util.darwinModules.default
-        ./configuration.nix
       ];
     };
   };

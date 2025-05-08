@@ -9,6 +9,8 @@
     stateVersion = "23.11";
     sessionVariables = {
       NIX_TRAMPOLINE = "1";
+      EDITOR = "nvim";
+      SHELL = "zsh";
     };
     packages = with pkgs; [
       # CLI tools
@@ -67,10 +69,24 @@
   };
 
   programs = {
+    # Let Home Manager install and manage itself.
+    home-manager.enable = true;
+
     git = {
       enable = true;
       userName = "Mirko May";
       userEmail = "hi@mirko.nz";
+    };
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      enableNushellIntegration = true;
+      nix-direnv.enable = true;
+    };
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      enableNushellIntegration = false;
     };
     zsh = {
       enable = true;
@@ -91,8 +107,22 @@
         md = "take";
         ytd = "yt-dlp";
       };
+      initExtraBeforeCompInit = ''
+# Enable Powerlevel10k instant prompt.
+if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+  source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+fi
+
+# Install zinit
+source "''${XDG_DATA_HOME:-''${HOME}/.local/share}/zinit/zinit-core/zinit.zsh"
+
+# Setup Theme
+zi ice filter=blob:none
+zi light romkatv/powerlevel10k
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+      '';
     };
-    # Let Home Manager install and manage itself.
-    home-manager.enable = true;
   };
 }

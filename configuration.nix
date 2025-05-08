@@ -60,6 +60,21 @@
     echo "Safari settings applied!"
   '';
 
+  system.activationScripts.cleanupSystemApps.text = ''
+    echo "Removing unwanted macOS applications..."
+    sudo rm -rf /Applications/GarageBand.app
+    sudo rm -rf /Applications/iMovie.app
+    sudo rm -rf ~/Library/Application\ Support/GarageBand
+    sudo rm -rf ~/Library/Application\ Support/iMovie
+    sudo rm -rf ~/Library/Preferences/com.apple.GarageBand*
+    sudo rm -rf ~/Library/Preferences/com.apple.iMovie*
+    sudo rm -rf ~/Library/Caches/com.apple.GarageBand*
+    sudo rm -rf ~/Library/Caches/com.apple.iMovie*
+    sudo rm -rf /Library/Application\ Support/GarageBand
+    sudo rm -rf /Library/Application\ Support/iMovie
+    sudo rm -rf /Library/Audio/Apple\ Loops
+  '';
+
   system.defaults = {
     dock = {
       autohide = true; # Automatically hide and show the Dock
@@ -177,13 +192,6 @@
     pathsToLink = [ "/Applications" ];
   };
 
-  home-manager = {
-    useUserPackages = true;
-    useGlobalPkgs = true;
-
-    users."${username}" = import ./home.nix { inherit pkgs username mac-app-util; };
-  };
-
   local = {
     dock = {
       enable = true;
@@ -193,9 +201,14 @@
         {path = "/System/Applications/Reminders.app/";}
         {path = "/System/Applications/Notes.app/";}
         {type = "spacer";}
+        # Work apps
+        {path = "/Applications/Microsoft Outlook.app/";}
+        {path = "/Applications/Microsoft Teams.app/";}
+        {path = "/Applications/Slack.app/";}
+        {type = "spacer";}
         # Web apps
-        {path = "/Users/${username}/Applications/Home Manager Apps/Arc.app/";}
-        {path = "/Users/${username}/Applications/Home Manager Apps/Spotify.app/";}
+        {path = "/Users/${username}/Applications/Home Manager Apps/Arc.app";}
+        {path = "/Users/${username}/Applications/Home Manager Apps/Spotify.app";}
         {path = "/Applications/Plex.app/";}
         {type = "spacer";}
         # Development apps
@@ -271,6 +284,14 @@
       no_quarantine = true;
       require_sha = true;
     };
+    brews = [
+      "wget"
+      "yq"
+      "zsh"
+      "zinit"
+      "dockutil"
+      "direnv"
+    ];
     casks = import ./cask-apps.nix;
     masApps = import ./mas-apps.nix;
   };
