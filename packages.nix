@@ -55,7 +55,6 @@
   homebrewCaskPackages = [
     "affinity-designer"
     "affinity-photo"
-    "alt-tab"
     "arc"
     "balenaetcher"
     "bartender"

@@ -1,16 +1,34 @@
 {
-  config,
   pkgs,
+  lib,
   username,
   ...
 }:
 
 let
   packages = import ./packages.nix { inherit pkgs; };
+  safariWebApps = [
+    { url = "https://youtube.com"; name = "YouTube"; }
+    { url = "https://soundcloud.com"; name = "SoundCloud"; }
+    { url = "https://twitch.tv"; name = "Twitch"; }
+    { url = "https://home.2e.nz"; name = "Home Assistant"; }
+    { url = "https://sabnzbd.2e.nz/sabnzbd/"; name = "SABnzbd"; }
+    { url = "https://prowlarr.2e.nz/search"; name = "Prowlarr"; }
+    { url = "https://radarr.2e.nz"; name = "Radarr"; }
+    { url = "https://sonarr.2e.nz"; name = "Sonarr"; }
+    { url = "https://readarr.2e.nz"; name = "Readarr"; }
+    { url = "https://bazarr.2e.nz"; name = "Bazarr"; }
+  ];
+
+  safariWebAppCommands = lib.concatStringsSep "\n" (map (app:
+    ''
+    osascript ~/Library/Mobile\\ Documents/com~apple~CloudDocs/Scripts/create-safari-webapp.applescript "${app.url}" "${app.name}"
+    ''
+  ) safariWebApps);
 in
 {
   # Home Manager settings
-  home-manager.users.${username} = {
+  home-manager.users.${username} = { pkgs, lib, ...}: {
     home.username = username;
     home.homeDirectory = "/Users/${username}";
     home.stateVersion = "23.11";
@@ -31,6 +49,7 @@ in
       ".npmrc".source = ./dotfiles/.npmrc;
       ".p10k.zsh".source = ./dotfiles/.p10k.zsh;
       ".vimrc".source = ./dotfiles/.vimrc;
+      ".functions.zsh".source = ./dotfiles/.functions.zsh;
       ".zinit.zsh".source = ./dotfiles/.zinit.zsh;
     };
 
@@ -62,7 +81,7 @@ in
         syntaxHighlighting.enable = true;
         shellAliases = {
           # reload = "source ~/.zshrc";
-          reload = "exec zsh; echo -e \"\ue2a2 Done!\"";
+          reload = "exec zsh; echo -e \"$(random_icon)  Done!\"";
           edit = "$EDITOR $HOME/nix";
           hosts = "sudo $EDITOR /etc/hosts";
 
@@ -91,15 +110,21 @@ in
           ytd = "yt-dlp";
         };
         initContent = ''
-          autoload colors; colors
-          echo -e "Hi ${username}! $fg[green]\ue2a2$reset_color"
+          # Functions
+          [[ ! -f ~/.functions.zsh ]] || source ~/.functions.zsh
 
-          source ${pkgs.zinit}/share/zinit/zinit.zsh
-          source ~/.zinit.zsh
+          # Greeting
+          echo -e "Hi ${username}!  $(random_icon)"
 
+          # Powerlevel10k
           source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
           [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+          # ZINIT
+          source ${pkgs.zinit}/share/zinit/zinit.zsh
+          [[ ! -f ~/.zinit.zsh ]] || source ~/.zinit.zsh
+
+          # FZF tab
           source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
 
           # NVM NODE
@@ -122,5 +147,11 @@ in
         '';
       };
     };
+
+    # Run the AppleScript for each web app
+    home.activation.createSafariWebApps = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      ${safariWebAppCommands}
+    '';
+
   };
 }
