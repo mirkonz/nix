@@ -55,14 +55,18 @@
   homebrewCaskPackages = [
     "affinity-designer"
     "affinity-photo"
+    "apptrap"
     "arc"
     "balenaetcher"
     "bartender"
+    "bettertouchtool"
     "chatgpt"
     "cleanmymac"
     "commander-one"
     "discord"
     "drawio"
+    "dropbox"
+    "easyfind"
     "firefox"
     "google-chrome"
     "google-drive"
@@ -74,8 +78,6 @@
     "keepassxc"
     "keka"
     "microsoft-outlook"
-    "microsoft-outlook"
-    "microsoft-teams"
     "microsoft-teams"
     "music-decoy"
     "namechanger"
@@ -86,6 +88,7 @@
     "screens-connect"
     "signal"
     "slack"
+    "sparrow"
     "spotify"
     "spotmenu"
     "stats"
@@ -97,15 +100,28 @@
   ];
 
   masPackages = {
-    "Amphetamine" = 937984704;
-    "AutoMounter" = 1160435653;
-    "Boxy SVG" = 611658502;
-    "ColorSlurp" = 1287239339;
-    "DaVinci Resolve" = 571213070;
-    "Hand Mirror" = 1502839586;
-    # "Little Ipsum"                = 405772121;
-    "Tailscale" = 1475387142;
-    "VPN Unlimited - WiFi Proxy" = 727593140;
-    "Windows App" = 1295203466;
+    # "Amphetamine" = 937984704;
+    # "AutoMounter" = 1160435653;
+    # "Boxy SVG" = 611658502;
+    # "ColorSlurp" = 1287239339;
+    # "DaVinci Resolve" = 571213070;
+    # "Hand Mirror" = 1502839586;
+    # # "Little Ipsum"                = 405772121;
+    # "Tailscale" = 1475387142;
+    # "VPN Unlimited - WiFi Proxy" = 727593140;
+    # "Windows App" = 1295203466;
   };
+
+  safariWebApps = [
+    { url = "https://youtube.com"; name = "YouTube"; }
+    { url = "https://soundcloud.com"; name = "SoundCloud"; }
+    { url = "https://twitch.tv"; name = "Twitch"; }
+    { url = "https://home.2e.nz"; name = "Home Assistant"; }
+    { url = "https://sabnzbd.2e.nz/sabnzbd/"; name = "SABnzbd"; }
+    { url = "https://prowlarr.2e.nz/search"; name = "Prowlarr"; }
+    { url = "https://radarr.2e.nz"; name = "Radarr"; }
+    { url = "https://sonarr.2e.nz"; name = "Sonarr"; }
+    { url = "https://readarr.2e.nz"; name = "Readarr"; }
+    { url = "https://bazarr.2e.nz"; name = "Bazarr"; }
+  ];
 }

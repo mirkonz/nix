@@ -37,6 +37,10 @@
 [difftool "default-difftool"]
 	cmd = code --wait --diff --new-window $LOCAL $REMOTE
 
+[user]
+	name = Mirko May
+	email = hi@mirko.nz
+
 [github]
 	user = mirkonz
 

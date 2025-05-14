@@ -1,0 +1,47 @@
+==> Formulae
+antigen			dockutil		graphite2		libevent		libssh			luajit			openjpeg		rtmpdump		webp
+aom			esphome			handbrake		libgcrypt		libssh2			luv			openssl@1.1		rubberband		wget
+aribb24			exa			harfbuzz		libgit2			libtasn1		lz4			openssl@3		ruby			whalebrew
+autoconf		fd			highway			libgit2@1.8		libtiff			lzo			opus			ruby-build		x264
+bash			ffmpeg			htop			libgpg-error		libtool			m-cli			p11-kit			s-lang			x265
+bat			ffmpegthumbnailer	icu4c@76		libheif			libunibreak		m4			pango			sdl2			xorgproto
+binutils		flac			icu4c@77		libidn			libunistring		mas			pcre2			shared-mime-info	xvid
+brew-gem		fontconfig		imagemagick		libidn2			libusb			mbedtls			pillow			skhd			xxhash
+brotli			fprobe			imath			libimagequant		libuv			media-info		pinentry		snappy			xz
+ca-certificates		freetype		jasper			libksba			libvidstab		midnight-commander	pixman			socat			yabai
+cairo			frei0r			jbig2dec		liblqr			libvmaf			mkcert			pkgconf			speex			yarn
+certifi			fribidi			jpeg-turbo		libmediainfo		libvorbis		mpdecimal		poppler			sqlite			youtube-dl
+cffi			fzf			jpeg-xl			libmicrohttpd		libvpx			mpg123			popt			srt			yq
+cjson			gettext			jq			libmms			libvterm		msgpack			pycparser		ssh-copy-id		yt-dlp
+cocoapods		gh			just			libnghttp2		libx11			ncurses			pyenv			supabase		zeromq
+colima			ghostscript		lame			libogg			libxau			neovim			python-packaging	svt-av1			zimg
+coreutils		giflib			leptonica		libomp			libxcb			nettle			python@3.11		tesseract		zoxide
+cryptography		git			lf			libpng			libxdmcp		nnn			python@3.12		theora			zstd
+curl			glib			libarchive		libraqm			libxext			npth			python@3.13		tmux
+dav1d			gmp			libass			libraw			libxrender		nspr			ranger			tree
+deno			gnu-sed			libassuan		librist			libyaml			nss			rav1e			tree-sitter
+diffutils		gnupg			libb2			libsamplerate		libzen			nvm			rbenv			unbound
+direnv			gnutls			libbluray		libsndfile		lima			oniguruma		readline		unibilium
+docker			go			libde265		libsodium		little-cms2		opencore-amr		ripgrep			utf8proc
+docker-completion	gpgme			libdeflate		libsoxr			lpeg			openexr			rsync			waifu2x
+
+==> Casks
+affinity-designer			docker					imageoptim				openshot-video-editor			spotify
+affinity-photo				drawio					imazing					plex					spotmenu
+alt-tab					dropbox					iterm2					qlcolorcode				stats
+angry-ip-scanner			dupeguru				itsycal					qlimagesize				steam
+apptrap					easyfind				jellyfin-media-player			qlmarkdown				stolendata-mpv
+arc					elmedia-player				keepassxc				qlprettypatch				subler
+avidemux				figma					keka					qlstephen				sweet-home3d
+balenaetcher				filebot					libndi					qlvideo					tor-browser
+bartender				firefox					microsoft-auto-update			quicklook-csv				tunnelblick
+bettertouchtool				font-fantasque-sans-mono-nerd-font	microsoft-outlook			quicklook-json				unison
+blender					font-fira-code-nerd-font		microsoft-teams				quicklookase				virtualbox-beta
+chatgpt					font-hack-nerd-font			mpv					rar					virtualbox@beta
+cleanmymac				font-lilex-nerd-font			mqtt-explorer				raycast					visual-studio-code
+cocoapods				font-meslo-lg-nerd-font			music-decoy				rectangle				vivaldi
+commander-one				freecad					namechanger				screens-connect				vlc
+dbeaver-community			google-chrome				nextcloud				sequel-pro				vnc-viewer
+digikam					google-drive				obs					signal					whatsapp
+discord					handbrake				obs-ndi					slack					xnviewmp
+distroav				iina					obsidian				sparrow					zoom

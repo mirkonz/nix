@@ -7,24 +7,11 @@
 
 let
   packages = import ./packages.nix { inherit pkgs; };
-  safariWebApps = [
-    { url = "https://youtube.com"; name = "YouTube"; }
-    { url = "https://soundcloud.com"; name = "SoundCloud"; }
-    { url = "https://twitch.tv"; name = "Twitch"; }
-    { url = "https://home.2e.nz"; name = "Home Assistant"; }
-    { url = "https://sabnzbd.2e.nz/sabnzbd/"; name = "SABnzbd"; }
-    { url = "https://prowlarr.2e.nz/search"; name = "Prowlarr"; }
-    { url = "https://radarr.2e.nz"; name = "Radarr"; }
-    { url = "https://sonarr.2e.nz"; name = "Sonarr"; }
-    { url = "https://readarr.2e.nz"; name = "Readarr"; }
-    { url = "https://bazarr.2e.nz"; name = "Bazarr"; }
-  ];
-
   safariWebAppCommands = lib.concatStringsSep "\n" (map (app:
     ''
-    osascript ~/Library/Mobile\\ Documents/com~apple~CloudDocs/Scripts/create-safari-webapp.applescript "${app.url}" "${app.name}"
+    ~/Library/Mobile\ Documents/com~apple~CloudDocs/Scripts/create-safari-webapp.applescript "${app.url}" "${app.name}"
     ''
-  ) safariWebApps);
+  ) packages.safariWebApps);
 in
 {
   # Home Manager settings
@@ -149,9 +136,9 @@ in
     };
 
     # Run the AppleScript for each web app
-    home.activation.createSafariWebApps = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      ${safariWebAppCommands}
-    '';
+    # home.activation.createSafariWebApps = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    #   ${safariWebAppCommands}
+    # '';
 
   };
 }
