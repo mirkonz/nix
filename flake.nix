@@ -15,10 +15,6 @@
 
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
-      inputs = {
-        nix-darwin.follows = "nix-darwin";
-        nixpkgs.follows = "nixpkgs";
-      };
     };
 
     mac-app-util.url = "github:hraban/mac-app-util";

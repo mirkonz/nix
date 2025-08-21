@@ -40,6 +40,14 @@ in
     autoMigrate = true;
     mutableTaps = true;
     enableZshIntegration = true;
+    taps = {
+      "koekeishiya/homebrew-formulae" = pkgs.fetchFromGitHub {
+        owner = "koekeishiya";
+        repo = "homebrew-formulae";
+        rev = "master";
+        sha256 = "sha256-e7NybFVmFDHHy8m+cJPnDugGKzfYkMvh/3c+O7jMM2Y=";
+      };
+    };
   };
 
   # Declarative Homebrew package management
@@ -67,4 +75,11 @@ in
 
   # Touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
+
+  # Define the primary user for system-level options
+  system.primaryUser = username;
+
+  # Restructure activation scripts to run as root
+  # Note: Ensure any user-specific commands use `sudo` where necessary
+  # Example: security.pam.services.sudo_local.touchIdAuth = true;
 }

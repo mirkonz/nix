@@ -37,6 +37,13 @@ curl -fsSL https://raw.githubusercontent.com/mirkonz/nix/main/install.sh | sudo 
 nixup
 ```
 
+Whenever adding or updating flakes run
+
+```bash
+nix flake update
+```
+
+
 ### Clear cache
 ```bash
 rm -rf ~/.cache/nix
