@@ -41,6 +41,10 @@ in
         ".functions.zsh".source = ./dotfiles/.functions.zsh;
         ".zinit.zsh".source = ./dotfiles/.zinit.zsh;
       };
+      home.file.".docker/cli-plugins/docker-compose" = {
+        source = "${pkgs.docker-compose}/bin/docker-compose";
+        executable = true;
+      };
 
       programs = {
         home-manager.enable = true;
@@ -69,6 +73,8 @@ in
           autosuggestion.enable = true;
           syntaxHighlighting.enable = true;
           shellAliases = {
+            "_" = "sudo";
+
             ".." = "cd ..";
             "..." = "cd ../..";
             "...." = "cd ../../..";
@@ -99,7 +105,7 @@ in
             reload = "exec zsh; echo -e \"$(random_icon)  Done!\"";
             edit = "$EDITOR $HOME/nix";
             hosts = "sudo $EDITOR /etc/hosts";
-            nixup = "nix run nix-darwin -- switch --flake .#mirko";
+            nixup = "sudo nix run nix-darwin -- switch --flake .#mirko";
           };
           initContent = ''
             # Functions
@@ -136,6 +142,8 @@ in
 
             # RUBY
             eval "$(rbenv init -)"
+
+            export OLLAMA_HOST=0.0.0.0;
           '';
         };
       };

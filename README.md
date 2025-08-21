@@ -1,5 +1,24 @@
 # NIX
 
+## General storage structure
+
+### Local storage (`Temporary` files)
+
+* Temp files
+* Downloads
+* macOS workflows `~/Library/Services`
+
+### iCloud (`Personal` files)
+
+* Everything important (personal)
+* Scripts (auto synced)
+
+### Google Drive (`Shared`)
+
+* Google docs
+* House
+
+
 ## Install
 
 [Install Determinate Nix on macOS](https://install.determinate.systems/determinate-pkg/stable/Universal)

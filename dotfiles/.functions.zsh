@@ -4,14 +4,6 @@ fg[brown]='\033[38;5;130m'
 
 function random_icon() {
     local icons=(
-        "$fg[black]$reset_color"
-        "$fg[black]$reset_color"
-        "$fg[black]ﮏ$reset_color"
-        "$fg[black]礼$reset_color"
-        "$fg[black]$reset_color"
-        "$fg[black]$reset_color"
-        "$fg[black]$reset_color"
-
         "$fg[blue]$reset_color"
         "$fg[blue]$reset_color"
         "$fg[blue]$reset_color"
@@ -68,6 +60,13 @@ function random_icon() {
         "$fg[red]嗢$reset_color"
         "$fg[red]$reset_color"
 
+        "$fg[white]$reset_color"
+        "$fg[white]$reset_color"
+        "$fg[white]ﮏ$reset_color"
+        "$fg[white]礼$reset_color"
+        "$fg[white]$reset_color"
+        "$fg[white]$reset_color"
+        "$fg[white]$reset_color"
         "$fg[white]$reset_color"
         "$fg[white]$reset_color"
         "$fg[white]$reset_color"

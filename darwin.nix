@@ -38,14 +38,8 @@ in
     user = username;
     enableRosetta = true;
     autoMigrate = true;
-    mutableTaps = false;
+    mutableTaps = true;
     enableZshIntegration = true;
-
-    taps = {
-      "homebrew/homebrew-core" = inputs.homebrew-core;
-      "homebrew/homebrew-cask" = inputs.homebrew-cask;
-      "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
-    };
   };
 
   # Declarative Homebrew package management
