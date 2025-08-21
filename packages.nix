@@ -29,7 +29,7 @@
     mc
     neovim
     nixfmt-rfc-style
-    pnpm
+    # pnpm # install via corepack
     rbenv
     ripgrep # fancy version of `grep`
     rsync
@@ -43,19 +43,24 @@
 
   # Homebrew packages (macOS-native tools)
   homebrewPackages = [
+    "act"
+    "blueutil"
     "colima"
     "python"
     "docker"
+    "docker-compose"
     "docker-completion"
     "dockutil"
+    "lima"
     "nvm"
+    "ollama"
+    "koekeishiya/formulae/yabai"
     "yt-dlp" # youtube-dl fork
   ];
 
   homebrewCaskPackages = [
     "affinity-designer"
     "affinity-photo"
-    "apptrap"
     "arc"
     "balenaetcher"
     "bartender"
@@ -81,7 +86,9 @@
     "microsoft-teams"
     "music-decoy"
     "namechanger"
+    "ndi-tools"
     "obs"
+    "pearcleaner"
     "plex"
     "raycast"
     "rectangle"
@@ -113,15 +120,49 @@
   };
 
   safariWebApps = [
-    { url = "https://youtube.com"; name = "YouTube"; }
-    { url = "https://soundcloud.com"; name = "SoundCloud"; }
-    { url = "https://twitch.tv"; name = "Twitch"; }
-    { url = "https://home.2e.nz"; name = "Home Assistant"; }
-    { url = "https://sabnzbd.2e.nz/sabnzbd/"; name = "SABnzbd"; }
-    { url = "https://prowlarr.2e.nz/search"; name = "Prowlarr"; }
-    { url = "https://radarr.2e.nz"; name = "Radarr"; }
-    { url = "https://sonarr.2e.nz"; name = "Sonarr"; }
-    { url = "https://readarr.2e.nz"; name = "Readarr"; }
-    { url = "https://bazarr.2e.nz"; name = "Bazarr"; }
+    {
+      url = "https://youtube.com";
+      name = "YouTube";
+    }
+    {
+      url = "https://soundcloud.com";
+      name = "SoundCloud";
+    }
+    {
+      url = "https://twitch.tv";
+      name = "Twitch";
+    }
+    {
+      url = "https://netflix.com";
+      name = "Netflix";
+    }
+    {
+      url = "https://home.2e.nz";
+      name = "Home Assistant";
+    }
+    {
+      url = "https://sabnzbd.2e.nz/sabnzbd/";
+      name = "SABnzbd";
+    }
+    {
+      url = "https://prowlarr.2e.nz/search";
+      name = "Prowlarr";
+    }
+    {
+      url = "https://radarr.2e.nz";
+      name = "Radarr";
+    }
+    {
+      url = "https://sonarr.2e.nz";
+      name = "Sonarr";
+    }
+    {
+      url = "https://readarr.2e.nz";
+      name = "Readarr";
+    }
+    {
+      url = "https://bazarr.2e.nz";
+      name = "Bazarr";
+    }
   ];
 }
