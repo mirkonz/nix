@@ -40,6 +40,7 @@ in
         ".vimrc".source = ./dotfiles/.vimrc;
         ".functions.zsh".source = ./dotfiles/.functions.zsh;
         ".zinit.zsh".source = ./dotfiles/.zinit.zsh;
+        ".vscode.css".source = ./dotfiles/.vscode.css;
       };
       home.file.".docker/cli-plugins/docker-compose" = {
         source = "${pkgs.docker-compose}/bin/docker-compose";
